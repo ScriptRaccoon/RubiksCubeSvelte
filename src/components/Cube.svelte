@@ -12,6 +12,8 @@
 
     let zoomFactor = 1;
 
+    let transparentMode = false;
+
     function rotate(direction) {
         if (direction == "up") {
             rotation.x += 45;
@@ -32,6 +34,10 @@
         } else if (direction == "-") {
             zoomFactor /= 1.15;
         }
+    }
+
+    function toggleTransparentMode() {
+        transparentMode = !transparentMode;
     }
 
     onMount(() => {
@@ -55,6 +61,9 @@
                 case "-":
                     zoom("-");
                     break;
+                case "c":
+                    toggleTransparentMode();
+                    break;
             }
         });
     });
@@ -66,6 +75,7 @@
 >
     <div
         class="cube"
+        class:transparent={transparentMode}
         style:--rotation-x="{rotation.x}deg"
         style:--rotation-y="{rotation.y}deg"
     >
@@ -117,18 +127,18 @@
 
     /* transparent mode */
 
-    /* #cube.transparent .face {
+    :global(.cube.transparent .face) {
         background: transparent;
     }
 
-    #cube.transparent .face {
+    :global(.cube.transparent .face) {
         opacity: 0.85;
         box-shadow: none;
     }
 
-    #cube.transparent .face::before {
+    :global(.cube.transparent .face::before) {
         box-shadow: none;
-    } */
+    }
 
     /* rotation layer */
 
