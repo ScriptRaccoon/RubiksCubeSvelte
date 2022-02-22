@@ -10,6 +10,8 @@
         z: 0,
     };
 
+    let zoomFactor = 1;
+
     function rotate(direction) {
         if (direction == "up") {
             rotation.x += 45;
@@ -21,6 +23,14 @@
             const factor1 = cubeIsUp ? +1 : -1;
             const factor2 = direction == "right" ? 1 : -1;
             rotation.y += factor1 * factor2 * 45;
+        }
+    }
+
+    function zoom(direction) {
+        if (direction == "+") {
+            zoomFactor *= 1.15;
+        } else if (direction == "-") {
+            zoomFactor /= 1.15;
         }
     }
 
@@ -39,12 +49,21 @@
                 case "ArrowDown":
                     rotate("down");
                     break;
+                case "+":
+                    zoom("+");
+                    break;
+                case "-":
+                    zoom("-");
+                    break;
             }
         });
     });
 </script>
 
-<div class="scene">
+<div
+    class="scene"
+    style:--cubie-size="calc({zoomFactor} * min(120px, 18vw))"
+>
     <div
         class="cube"
         style:--rotation-x="{rotation.x}deg"
