@@ -1,0 +1,26 @@
+/* general stuff */
+
+:root {
+    --zoom-factor: 1;
+    --cubie-size: calc(var(--zoom-factor) * min(120px, 18vw));
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+    cursor: move;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: yellow;
+}
