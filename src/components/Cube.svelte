@@ -28,19 +28,17 @@
         }
     }
 
-    function zoom(direction) {
-        if (direction == "+") {
-            zoomFactor *= 1.15;
-        } else if (direction == "-") {
-            zoomFactor /= 1.15;
-        }
+    function zoom(factor) {
+        zoomFactor *= factor;
     }
 
     function toggleTransparentMode() {
         transparentMode = !transparentMode;
     }
 
-    onMount(() => {
+    onMount(enableKeyControl);
+
+    function enableKeyControl() {
         document.addEventListener("keydown", (e) => {
             switch (e.key) {
                 case "ArrowLeft":
@@ -56,17 +54,17 @@
                     rotate("down");
                     break;
                 case "+":
-                    zoom("+");
+                    zoom(1.15);
                     break;
                 case "-":
-                    zoom("-");
+                    zoom(1 / 1.15);
                     break;
                 case "c":
                     toggleTransparentMode();
                     break;
             }
         });
-    });
+    }
 </script>
 
 <div
