@@ -1,10 +1,55 @@
 <script>
     export let cubies;
     import Cubie from "./Cubie.svelte";
+    import { mod } from "../utils.js";
+    import { onMount } from "svelte";
+
+    const rotation = {
+        x: -45,
+        y: 45,
+        z: 0,
+    };
+
+    function rotate(direction) {
+        if (direction == "up") {
+            rotation.x += 45;
+        } else if (direction == "down") {
+            rotation.x -= 45;
+        } else {
+            const rotX = mod(rotation.x, 360);
+            const cubeIsUp = rotX <= 90 || rotX >= 315;
+            const factor1 = cubeIsUp ? +1 : -1;
+            const factor2 = direction == "right" ? 1 : -1;
+            rotation.y += factor1 * factor2 * 45;
+        }
+    }
+
+    onMount(() => {
+        document.addEventListener("keydown", (e) => {
+            switch (e.key) {
+                case "ArrowLeft":
+                    rotate("left");
+                    break;
+                case "ArrowRight":
+                    rotate("right");
+                    break;
+                case "ArrowUp":
+                    rotate("up");
+                    break;
+                case "ArrowDown":
+                    rotate("down");
+                    break;
+            }
+        });
+    });
 </script>
 
 <div class="scene">
-    <div class="cube">
+    <div
+        class="cube"
+        style:--rotation-x="{rotation.x}deg"
+        style:--rotation-y="{rotation.y}deg"
+    >
         <div class="cubeContainer">
             {#each cubies as cubie}
                 <Cubie {cubie} />
@@ -26,10 +71,12 @@
         align-items: center;
         pointer-events: none;
     }
+
     .cube {
         transform-style: inherit;
-        transform: rotateX(-45deg) rotateY(45deg);
-        transition: transform 200ms ease-in-out;
+        transform: rotateX(var(--rotation-x))
+            rotateY(var(--rotation-y));
+        transition: transform 200ms ease-out;
     }
 
     .cubeContainer {
