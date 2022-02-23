@@ -1,5 +1,6 @@
 <script>
     import Cube from "./components/Cube.svelte";
+    import Help from "./components/Help.svelte";
 
     let cubies = [
         {
@@ -345,5 +346,7 @@
         },
     ];
 </script>
+
+<Help />
 
 <Cube {cubies} />

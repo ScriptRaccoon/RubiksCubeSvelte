@@ -67,7 +67,7 @@
     }
 </script>
 
-<div
+<main
     class="scene"
     style:--cubie-size="calc({zoomFactor} * min(120px, 18vw))"
 >
@@ -86,7 +86,7 @@
             <!-- TODO -->
         </div>
     </div>
-</div>
+</main>
 
 <style>
     .scene {
