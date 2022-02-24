@@ -11,7 +11,8 @@
             }
         });
         setTimeout(() => {
-            showHelp = true;
+            // comment out in dev mode
+            // showHelp = true;
         }, 400);
     });
 </script>
