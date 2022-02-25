@@ -4,6 +4,7 @@
     import { mod } from "../utils.js";
     import { onMount } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
+    import { setContext } from "svelte";
 
     let popup = false;
     let popupText = "";
@@ -16,6 +17,8 @@
         "left",
         "right",
     ];
+
+    setContext("faceNames", faceNames);
 
     let cubies = [
         {
