@@ -1,9 +1,6 @@
 <script>
     import Face from "./Face.svelte";
     export let cubie;
-    cubie.originalCoords = { ...cubie.coords };
-    cubie.originalColors = { ...cubie.colors };
-    cubie.rotation = "";
 
     const faceNames = [
         "front",
@@ -18,9 +15,9 @@
 <div
     class="cubie"
     id={cubie.id}
-    style:transform="translateX(calc({cubie.coords.x} * var(--cubie-size)))`
-    + `translateY(calc({cubie.coords.y} * var(--cubie-size)))` + `translateZ(calc({cubie
-        .coords.z} * var(--cubie-size)))` + `{cubie.rotation}"
+    style:transform="translateX(calc({cubie.coords.x} * var(--cubie-size)))
+    translateY(calc({cubie.coords.y} * var(--cubie-size))) translateZ(calc({cubie
+        .coords.z} * var(--cubie-size)))"
 >
     {#each faceNames as faceName}
         <Face {faceName} color={cubie.colors[faceName]} />
