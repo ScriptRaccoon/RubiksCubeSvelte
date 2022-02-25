@@ -221,20 +221,17 @@
         standing: { axis: "z", value: 0 },
     };
 
-    function getCubiesFromLayer(layer) {
-        const { axis, value } = layerMap[layer];
-        return cubies.filter((cubie) => cubie.coords[axis] == value);
-    }
-
     export function rotateLayer(rotationData) {
         const { layer, orientation } = rotationData;
         // const angle = orientation == "+" ? 90 : -90;
-        // const { axis } = layerMap[layer];
-        const rotatingCubies = getCubiesFromLayer(layer);
+        const { axis, value } = layerMap[layer];
         const trafo = cubieTransform[layer][orientation];
-        for (const cubie of rotatingCubies) {
-            const index = cubies.findIndex((c) => c == cubie);
-            cubies[index] = trafo(cubie);
+
+        for (let index = 0; index < cubies.length; index++) {
+            const cubie = cubies[index];
+            if (cubie.coords[axis] == value) {
+                cubies[index] = trafo(cubie);
+            }
         }
     }
 
