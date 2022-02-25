@@ -4,6 +4,15 @@
     import { onMount } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
 
+    const faceNames = [
+        "front",
+        "back",
+        "top",
+        "down",
+        "left",
+        "right",
+    ];
+
     let cubies = [
         {
             id: "w",
@@ -187,6 +196,16 @@
 
     let transparentMode = false;
 
+    let cubeIsSolved = false;
+
+    function checkSolved() {
+        cubeIsSolved = faceNames.every(
+            (faceName) =>
+                new Set(cubies.map((cubie) => cubie.colors[faceName]))
+                    .size == 2
+        );
+    }
+
     function rotateCube(direction) {
         if (direction == "up") {
             cubeRotation.x += 45;
@@ -233,6 +252,9 @@
                 cubies[index] = trafo(cubie);
             }
         }
+
+        checkSolved();
+        console.log({ cubeIsSolved });
     }
 
     onMount(enableKeyControl);
