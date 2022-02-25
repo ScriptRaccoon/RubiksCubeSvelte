@@ -1,8 +1,12 @@
 <script>
     import Cubie from "./Cubie.svelte";
+    import Popup from "./Popup.svelte";
     import { mod } from "../utils.js";
     import { onMount } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
+
+    let popup = false;
+    let popupText = "";
 
     const faceNames = [
         "front",
@@ -196,14 +200,15 @@
 
     let transparentMode = false;
 
-    let cubeIsSolved = false;
-
     function checkSolved() {
-        cubeIsSolved = faceNames.every(
+        const cubeIsSolved = faceNames.every(
             (faceName) =>
                 new Set(cubies.map((cubie) => cubie.colors[faceName]))
                     .size == 2
         );
+        if (cubeIsSolved) {
+            showPopup("Cube is solved! 🎉");
+        }
     }
 
     function rotateCube(direction) {
@@ -254,7 +259,6 @@
         }
 
         checkSolved();
-        console.log({ cubeIsSolved });
     }
 
     onMount(enableKeyControl);
@@ -357,6 +361,15 @@
             }
         });
     }
+
+    function showPopup(txt, duration = 2000) {
+        popup = true;
+        popupText = txt;
+        setTimeout(() => {
+            popup = false;
+            popupText = "";
+        }, duration);
+    }
 </script>
 
 <main
@@ -377,6 +390,10 @@
         </div>
     </div>
 </main>
+
+{#if popup}
+    <Popup bind:popup {popupText} />
+{/if}
 
 <style>
     .scene {
