@@ -7,7 +7,6 @@
 
 <style>
     .face {
-        position: absolute;
         width: var(--cubie-size);
         height: var(--cubie-size);
         background: #404040;
