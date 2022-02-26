@@ -409,13 +409,12 @@
         pointer-events: none;
     }
 
-    .cube {
+    :global(.scene *) {
         transform-style: inherit;
-        transition: transform 200ms ease-out;
     }
 
-    .cubeContainer {
-        transform-style: inherit;
+    .cube {
+        transition: transform 200ms ease-out;
     }
 
     /* .cube.solved {
@@ -452,6 +451,5 @@
     .rotationLayer {
         transition: transform ease-in-out;
         transition-duration: 250ms;
-        transform-style: inherit;
     } */
 </style>

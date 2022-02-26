@@ -20,7 +20,6 @@
     .cubie {
         width: 0%;
         height: 0%;
-        transform-style: inherit;
         position: absolute;
     }
     :global(.cubie:hover .face) {
