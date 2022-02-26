@@ -4,10 +4,14 @@
     import { mod } from "../utils.js";
     import { onMount } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
-    import { setContext } from "svelte";
+    import { setContext, tick } from "svelte";
 
     let popup = false;
     let popupText = "";
+
+    let rotationSpeed = 250;
+
+    let isRotating = false;
 
     const faceNames = [
         "front",
@@ -28,6 +32,7 @@
             colors: {
                 top: "white",
             },
+            rotationString: "",
         },
         {
             id: "y",
@@ -36,6 +41,7 @@
             colors: {
                 down: "yellow",
             },
+            rotationString: "",
         },
         {
             id: "r",
@@ -44,126 +50,147 @@
             colors: {
                 left: "red",
             },
+            rotationString: "",
         },
         {
             id: "o",
             type: "center",
             coords: { x: 1, y: 0, z: 0 },
             colors: { right: "orange" },
+            rotationString: "",
         },
         {
             id: "b",
             type: "center",
             coords: { x: 0, y: 0, z: 1 },
             colors: { front: "blue" },
+            rotationString: "",
         },
         {
             id: "g",
             type: "center",
             coords: { x: 0, y: 0, z: -1 },
             colors: { back: "green" },
+            rotationString: "",
         },
         {
             id: "wbr",
             type: "corner",
             coords: { x: -1, y: -1, z: 1 },
             colors: { top: "white", front: "blue", left: "red" },
+            rotationString: "",
         },
         {
             id: "wbo",
             type: "corner",
             coords: { x: 1, y: -1, z: 1 },
             colors: { top: "white", front: "blue", right: "orange" },
+            rotationString: "",
         },
         {
             id: "wgo",
             type: "corner",
             coords: { x: 1, y: -1, z: -1 },
             colors: { top: "white", back: "green", right: "orange" },
+            rotationString: "",
         },
         {
             id: "wgr",
             type: "corner",
             coords: { x: -1, y: -1, z: -1 },
             colors: { top: "white", left: "red", back: "green" },
+            rotationString: "",
         },
         {
             id: "wb",
             type: "edge",
             coords: { x: 0, y: -1, z: 1 },
             colors: { top: "white", front: "blue" },
+            rotationString: "",
         },
         {
             id: "wo",
             type: "edge",
             coords: { x: 1, y: -1, z: 0 },
             colors: { top: "white", right: "orange" },
+            rotationString: "",
         },
         {
             id: "wr",
             type: "edge",
             coords: { x: -1, y: -1, z: 0 },
             colors: { top: "white", left: "red" },
+            rotationString: "",
         },
         {
             id: "wg",
             type: "edge",
             coords: { x: 0, y: -1, z: -1 },
             colors: { top: "white", back: "green" },
+            rotationString: "",
         },
         {
             id: "og",
             type: "edge",
             coords: { x: 1, y: 0, z: -1 },
             colors: { right: "orange", back: "green" },
+            rotationString: "",
         },
         {
             id: "rg",
             type: "edge",
             coords: { x: -1, y: 0, z: -1 },
             colors: { left: "red", back: "green" },
+            rotationString: "",
         },
         {
             id: "rb",
             type: "edge",
             coords: { x: -1, y: 0, z: 1 },
             colors: { front: "blue", left: "red" },
+            rotationString: "",
         },
         {
             id: "bo",
             type: "edge",
             coords: { x: 1, y: 0, z: 1 },
             colors: { front: "blue", right: "orange" },
+            rotationString: "",
         },
         {
             id: "by",
             type: "edge",
             coords: { x: 0, y: 1, z: 1 },
             colors: { front: "blue", down: "yellow" },
+            rotationString: "",
         },
         {
             id: "gy",
             type: "edge",
             coords: { x: 0, y: 1, z: -1 },
             colors: { back: "green", down: "yellow" },
+            rotationString: "",
         },
         {
             id: "ry",
             type: "edge",
             coords: { x: -1, y: 1, z: 0 },
             colors: { left: "red", down: "yellow" },
+            rotationString: "",
         },
         {
             id: "oy",
             type: "edge",
             coords: { x: 1, y: 1, z: 0 },
             colors: { right: "orange", down: "yellow" },
+            rotationString: "",
         },
         {
             id: "ybr",
             type: "corner",
             coords: { x: -1, y: 1, z: 1 },
             colors: { front: "blue", down: "yellow", left: "red" },
+            rotationString: "",
         },
         {
             id: "ybo",
@@ -174,12 +201,14 @@
                 down: "yellow",
                 right: "orange",
             },
+            rotationString: "",
         },
         {
             id: "ygr",
             type: "corner",
             coords: { x: -1, y: 1, z: -1 },
             colors: { back: "green", down: "yellow", left: "red" },
+            rotationString: "",
         },
         {
             id: "ygo",
@@ -190,6 +219,7 @@
                 down: "yellow",
                 right: "orange",
             },
+            rotationString: "",
         },
     ];
 
@@ -249,15 +279,31 @@
     };
 
     export function rotateLayer(rotationData) {
+        if (isRotating) return;
+        isRotating = true;
         const { layer, orientation } = rotationData;
-        // const angle = orientation == "+" ? 90 : -90;
+        const angle = orientation == "+" ? 90 : -90;
         const { axis, value } = layerMap[layer];
+        const rotationString = `rotate${axis.toUpperCase()}(${angle}deg)`;
         const trafo = cubieTransform[layer][orientation];
 
         for (let index = 0; index < cubies.length; index++) {
             const cubie = cubies[index];
             if (cubie.coords[axis] == value) {
-                cubies[index] = trafo(cubie);
+                cubies[index].rotationString += rotationString;
+                let savedSpeed = rotationSpeed;
+                setTimeout(() => {
+                    rotationSpeed = 0;
+                    cubies[index] = {
+                        ...trafo(cubie),
+                        rotationString: "",
+                    };
+                    setTimeout(() => {
+                        rotationSpeed = savedSpeed;
+                        isRotating = false;
+                        console.dir(cubies[index]);
+                    }, 100);
+                }, rotationSpeed);
             }
         }
 
@@ -370,12 +416,12 @@
     }
 
     function showPopup(txt, duration = 2000) {
-        popup = true;
-        popupText = txt;
-        setTimeout(() => {
-            popup = false;
-            popupText = "";
-        }, duration);
+        // popup = true;
+        // popupText = txt;
+        // setTimeout(() => {
+        //     popup = false;
+        //     popupText = "";
+        // }, duration);
     }
 
     function resetCube() {
@@ -402,7 +448,7 @@
         <div class="cubeContainer">
             {#each cubies as cubie (cubie.id)}
                 {#key cubie.coords.toString()}
-                    <Cubie {cubie} />
+                    <Cubie {rotationSpeed} {cubie} />
                 {/key}
             {/each}
         </div>
@@ -446,12 +492,4 @@
     :global(.cube.transparent .face::before) {
         box-shadow: none;
     }
-
-    /* rotation layer */
-
-    /* 
-    .rotationLayer {
-        transition: transform ease-in-out;
-        transition-duration: 250ms;
-    } */
 </style>
