@@ -2,6 +2,8 @@
     import Face from "./Face.svelte";
     import { getContext } from "svelte";
     export let cubie;
+    cubie.originalCoords = { ...cubie.coords };
+    cubie.originalColors = { ...cubie.colors };
 </script>
 
 <div

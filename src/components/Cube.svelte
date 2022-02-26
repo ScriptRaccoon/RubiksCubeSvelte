@@ -361,6 +361,10 @@
                         layer: "standing",
                         orientation: "-",
                     });
+                    break;
+                case "U":
+                    resetCube();
+                    break;
             }
         });
     }
@@ -372,6 +376,17 @@
             popup = false;
             popupText = "";
         }, duration);
+    }
+
+    function resetCube() {
+        for (let index = 0; index < cubies.length; index++) {
+            cubies[index].coords = {
+                ...cubies[index].originalCoords,
+            };
+            cubies[index].colors = {
+                ...cubies[index].originalColors,
+            };
+        }
     }
 </script>
 
@@ -416,19 +431,6 @@
     .cube {
         transition: transform 200ms ease-out;
     }
-
-    /* .cube.solved {
-        animation: solveAnimation 50s linear infinite;
-    }
-
-    @keyframes solveAnimation {
-        0% {
-            transform: rotateX(-45deg) rotateY(45deg) rotateZ(0deg);
-        }
-        100% {
-            transform: rotateX(315deg) rotateY(405deg) rotateZ(360deg);
-        }
-    } */
 
     /* transparent mode */
 

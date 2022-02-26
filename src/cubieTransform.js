@@ -8,8 +8,7 @@ cubieTransform.front =
         {
             "+": function (cubie) {
                 return {
-                    id: cubie.id,
-                    type: cubie.type,
+                    ...cubie,
                     coords: {
                         x: -cubie.coords.y,
                         y: cubie.coords.x,
@@ -27,8 +26,7 @@ cubieTransform.front =
             },
             "-": function (cubie) {
                 return {
-                    id: cubie.id,
-                    type: cubie.type,
+                    ...cubie,
                     coords: {
                         x: cubie.coords.y,
                         y: -cubie.coords.x,
@@ -54,8 +52,7 @@ cubieTransform.top =
         {
             "+": function (cubie) {
                 return {
-                    id: cubie.id,
-                    type: cubie.type,
+                    ...cubie,
                     coords: {
                         x: cubie.coords.z,
                         y: cubie.coords.y,
@@ -73,8 +70,7 @@ cubieTransform.top =
             },
             "-": function (cubie) {
                 return {
-                    id: cubie.id,
-                    type: cubie.type,
+                    ...cubie,
                     coords: {
                         x: -cubie.coords.z,
                         y: cubie.coords.y,
@@ -100,8 +96,7 @@ cubieTransform.left =
         {
             "+": function (cubie) {
                 return {
-                    id: cubie.id,
-                    type: cubie.type,
+                    ...cubie,
                     coords: {
                         x: cubie.coords.x,
                         y: -cubie.coords.z,
@@ -119,8 +114,7 @@ cubieTransform.left =
             },
             "-": function (cubie) {
                 return {
-                    id: cubie.id,
-                    type: cubie.type,
+                    ...cubie,
                     coords: {
                         x: cubie.coords.x,
                         y: cubie.coords.z,
