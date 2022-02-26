@@ -40,45 +40,45 @@
                     The <strong>Arrow keys</strong> rotate the cube.
                 </p>
                 <p>
-                    The keys <strong>+</strong>/<strong>-</strong> zoom
+                    The keys <strong>+</strong>, <strong>-</strong> zoom
                     the cube in/out.
                 </p>
                 <br />
                 <p>
-                    The key <strong>t</strong> (resp.
-                    <strong>T</strong>) rotates the top layer.
+                    The keys <strong>t</strong>, <strong>T</strong> rotate
+                    the top layer.
                 </p>
                 <p>
-                    The key <strong>d</strong> (resp.
-                    <strong>D</strong>) rotates the down layer.
+                    The keys <strong>d</strong>,
+                    <strong>D</strong> rotate the down layer.
                 </p>
                 <p>
-                    The key <strong>l</strong> (resp.
-                    <strong>L</strong>) rotates the left layer.
+                    The keys <strong>l</strong>,
+                    <strong>L</strong> rotate the left layer.
                 </p>
                 <p>
-                    The key <strong>r</strong> (resp.
-                    <strong>R</strong>) rotates the right layer.
+                    The keys <strong>r</strong>,
+                    <strong>R</strong> rotate the right layer.
                 </p>
                 <p>
-                    The key <strong>f</strong> (resp.
-                    <strong>F</strong>) rotates the front layer.
+                    The keys <strong>f</strong>,
+                    <strong>F</strong> rotate the front layer.
                 </p>
                 <p>
-                    The key <strong>b</strong> (resp.
-                    <strong>B</strong>) rotates the back layer.
+                    The keys <strong>b</strong>,
+                    <strong>B</strong> rotate the back layer.
                 </p>
                 <p>
-                    The key <strong>e</strong> (resp.
-                    <strong>E</strong>) rotates the equator layer.
+                    The keys <strong>e</strong>,
+                    <strong>E</strong> rotate the equator layer.
                 </p>
                 <p>
-                    The key <strong>m</strong> (resp.
-                    <strong>M</strong>) rotates the middle layer.
+                    The keys <strong>m</strong>,
+                    <strong>M</strong> rotate the middle layer.
                 </p>
                 <p>
-                    The key <strong>s</strong> (resp.
-                    <strong>S</strong>) rotates the standing layer.
+                    The keys <strong>s</strong>,
+                    <strong>S</strong> rotate the standing layer.
                 </p>
                 <br />
                 <p>
