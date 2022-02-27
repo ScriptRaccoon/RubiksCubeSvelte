@@ -3,6 +3,7 @@ export class TaskQueue {
         this.queue = [];
         this.executing = false;
         this.fun = fun;
+        this.delay = 100;
     }
 
     add(task) {
@@ -17,7 +18,9 @@ export class TaskQueue {
         if (this.queue.length > 0) {
             const task = this.queue.shift();
             await this.fun(task);
-            this.execute();
+            setTimeout(() => {
+                this.execute();
+            }, this.delay);
         } else {
             this.executing = false;
         }

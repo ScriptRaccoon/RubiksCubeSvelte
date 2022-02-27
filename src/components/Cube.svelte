@@ -293,8 +293,6 @@
     };
 
     async function rotateLayer(rotationData) {
-        if (isRotating) return;
-        isRotating = true;
         const { layer, orientation } = rotationData;
         const angle = orientation == "+" ? 90 : -90;
         const { axis, value } = layerMap[layer];
@@ -320,7 +318,6 @@
 
         await sleep(0);
 
-        isRotating = false;
         checkSolved();
     }
 
@@ -482,7 +479,7 @@
     }
 
     function resetCube() {
-        if (isRotating) return;
+        if (rotationQueue.executing) return;
         for (let index = 0; index < cubies.length; index++) {
             cubies[index].coords = {
                 ...cubies[index].originalCoords,
