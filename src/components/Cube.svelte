@@ -1,10 +1,11 @@
 <script>
     import Cubie from "./Cubie.svelte";
     import Popup from "./Popup.svelte";
-    import { mod } from "../utils.js";
+    import { mod, sleep } from "../utils.js";
     import { onMount, setContext } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
     import { fade } from "svelte/transition";
+    import { TaskQueue } from "../TaskQueue.js";
 
     let popup = false;
     let popupText = "";
@@ -291,7 +292,7 @@
         standing: { axis: "z", value: 0 },
     };
 
-    export function rotateLayer(rotationData) {
+    async function rotateLayer(rotationData) {
         if (isRotating) return;
         isRotating = true;
         const { layer, orientation } = rotationData;
@@ -307,20 +308,23 @@
 
         rotationString = `rotate${axis.toUpperCase()}(${angle}deg)`;
 
-        setTimeout(() => {
-            for (let index = 0; index < cubies.length; index++) {
-                if (cubies[index].rotating) {
-                    cubies[index] = trafo(cubies[index]);
-                    cubies[index].rotating = false;
-                }
+        await sleep(rotationSpeed);
+
+        for (let index = 0; index < cubies.length; index++) {
+            if (cubies[index].rotating) {
+                cubies[index] = trafo(cubies[index]);
+                cubies[index].rotating = false;
             }
-            rotationString = "";
-            setTimeout(() => {
-                isRotating = false;
-                checkSolved();
-            }, 0);
-        }, rotationSpeed);
+        }
+        rotationString = "";
+
+        await sleep(0);
+
+        isRotating = false;
+        checkSolved();
     }
+
+    const rotationQueue = new TaskQueue(rotateLayer);
 
     onMount(() => {
         setTimeout(() => {
@@ -354,73 +358,109 @@
                     toggleTransparentMode();
                     break;
                 case "f":
-                    rotateLayer({ layer: "front", orientation: "+" });
+                    rotationQueue.add({
+                        layer: "front",
+                        orientation: "+",
+                    });
                     break;
                 case "F":
-                    rotateLayer({ layer: "front", orientation: "-" });
+                    rotationQueue.add({
+                        layer: "front",
+                        orientation: "-",
+                    });
                     break;
                 case "b":
-                    rotateLayer({ layer: "back", orientation: "-" });
+                    rotationQueue.add({
+                        layer: "back",
+                        orientation: "-",
+                    });
                     break;
                 case "B":
-                    rotateLayer({ layer: "back", orientation: "+" });
+                    rotationQueue.add({
+                        layer: "back",
+                        orientation: "+",
+                    });
                     break;
                 case "l":
-                    rotateLayer({ layer: "left", orientation: "-" });
+                    rotationQueue.add({
+                        layer: "left",
+                        orientation: "-",
+                    });
                     break;
                 case "L":
-                    rotateLayer({ layer: "left", orientation: "+" });
+                    rotationQueue.add({
+                        layer: "left",
+                        orientation: "+",
+                    });
                     break;
                 case "r":
-                    rotateLayer({ layer: "right", orientation: "+" });
+                    rotationQueue.add({
+                        layer: "right",
+                        orientation: "+",
+                    });
                     break;
                 case "R":
-                    rotateLayer({ layer: "right", orientation: "-" });
+                    rotationQueue.add({
+                        layer: "right",
+                        orientation: "-",
+                    });
                     break;
                 case "t":
-                    rotateLayer({ layer: "top", orientation: "-" });
+                    rotationQueue.add({
+                        layer: "top",
+                        orientation: "-",
+                    });
                     break;
                 case "T":
-                    rotateLayer({ layer: "top", orientation: "+" });
+                    rotationQueue.add({
+                        layer: "top",
+                        orientation: "+",
+                    });
                     break;
                 case "d":
-                    rotateLayer({ layer: "down", orientation: "+" });
+                    rotationQueue.add({
+                        layer: "down",
+                        orientation: "+",
+                    });
                     break;
                 case "D":
-                    rotateLayer({ layer: "down", orientation: "-" });
+                    rotationQueue.add({
+                        layer: "down",
+                        orientation: "-",
+                    });
                     break;
                 case "e":
-                    rotateLayer({
+                    rotationQueue.add({
                         layer: "equator",
                         orientation: "+",
                     });
                     break;
                 case "E":
-                    rotateLayer({
+                    rotationQueue.add({
                         layer: "equator",
                         orientation: "-",
                     });
                     break;
                 case "m":
-                    rotateLayer({
+                    rotationQueue.add({
                         layer: "middle",
                         orientation: "-",
                     });
                     break;
                 case "M":
-                    rotateLayer({
+                    rotationQueue.add({
                         layer: "middle",
                         orientation: "+",
                     });
                     break;
                 case "s":
-                    rotateLayer({
+                    rotationQueue.add({
                         layer: "standing",
                         orientation: "+",
                     });
                     break;
                 case "S":
-                    rotateLayer({
+                    rotationQueue.add({
                         layer: "standing",
                         orientation: "-",
                     });
