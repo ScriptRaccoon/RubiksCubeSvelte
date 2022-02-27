@@ -515,9 +515,6 @@
 
     :global(.cube.transparent .face) {
         background: transparent;
-    }
-
-    :global(.cube.transparent .face) {
         opacity: 0.85;
         box-shadow: none;
     }
