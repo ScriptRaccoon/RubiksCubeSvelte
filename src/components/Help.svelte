@@ -13,7 +13,7 @@
         setTimeout(() => {
             // comment out in dev mode
             // showHelp = true;
-        }, 400);
+        }, 1000);
     });
 </script>
 

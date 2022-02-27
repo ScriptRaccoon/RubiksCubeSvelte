@@ -4,9 +4,12 @@
     import { mod } from "../utils.js";
     import { onMount, setContext } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
+    import { fade } from "svelte/transition";
 
     let popup = false;
     let popupText = "";
+
+    let visible = false;
 
     let rotationSpeed = 250;
 
@@ -319,7 +322,12 @@
         }, rotationSpeed);
     }
 
-    onMount(enableKeyControl);
+    onMount(() => {
+        setTimeout(() => {
+            visible = true;
+            enableKeyControl();
+        }, 100);
+    });
 
     function enableKeyControl() {
         document.addEventListener("keydown", (e) => {
@@ -446,34 +454,38 @@
     }
 </script>
 
-<main
-    class="scene"
-    style:--cubie-size="calc({zoomFactor} * min(120px, 18vw))"
->
-    <div
-        class="cube"
-        style:transition-duration="{rotationSpeed}ms"
-        class:transparent={transparentMode}
-        style:transform="rotateX({cubeRotation.x}deg) rotateY({cubeRotation.y}deg)"
+{#if visible}
+    <main
+        in:fade={{ duration: 500 }}
+        class="scene"
+        class:visible
+        style:--cubie-size="calc({zoomFactor} * min(120px, 18vw))"
     >
-        <div class="cubieContainer">
-            {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
-                <Cubie {cubie} />
-            {/each}
-        </div>
         <div
-            class="rotationLayer"
-            style:transition-duration={rotationString
-                ? `${rotationSpeed}ms`
-                : "0ms"}
-            style:transform={rotationString}
+            class="cube"
+            style:transition-duration="{rotationSpeed}ms"
+            class:transparent={transparentMode}
+            style:transform="rotateX({cubeRotation.x}deg) rotateY({cubeRotation.y}deg)"
         >
-            {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
-                <Cubie {cubie} />
-            {/each}
+            <div class="cubieContainer">
+                {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
+                    <Cubie {cubie} />
+                {/each}
+            </div>
+            <div
+                class="rotationLayer"
+                style:transition-duration={rotationString
+                    ? `${rotationSpeed}ms`
+                    : "0ms"}
+                style:transform={rotationString}
+            >
+                {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
+                    <Cubie {cubie} />
+                {/each}
+            </div>
         </div>
-    </div>
-</main>
+    </main>
+{/if}
 
 {#if popup}
     <Popup bind:popup {popupText} />
