@@ -8,6 +8,10 @@ export class TaskQueue {
         this.taskInversion = taskInversion;
     }
 
+    clearHistory() {
+        this.history = [];
+    }
+
     add(task, save = true) {
         this.queue.push(task);
         if (save) this.history.push(task);

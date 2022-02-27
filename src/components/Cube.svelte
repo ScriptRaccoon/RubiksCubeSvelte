@@ -11,10 +11,9 @@
     let popupText = "";
 
     let visible = false;
-
-    let rotationSpeed = 250;
-
     let rotationString = "";
+    let isScrambling = false;
+    $: rotationSpeed = isScrambling ? 100 : 250;
 
     const faceNames = [
         "front",
@@ -362,108 +361,126 @@
                     toggleTransparentMode();
                     break;
                 case "f":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "front",
                         orientation: "+",
                     });
                     break;
                 case "F":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "front",
                         orientation: "-",
                     });
                     break;
                 case "b":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "back",
                         orientation: "-",
                     });
                     break;
                 case "B":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "back",
                         orientation: "+",
                     });
                     break;
                 case "l":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "left",
                         orientation: "-",
                     });
                     break;
                 case "L":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "left",
                         orientation: "+",
                     });
                     break;
                 case "r":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "right",
                         orientation: "+",
                     });
                     break;
                 case "R":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "right",
                         orientation: "-",
                     });
                     break;
                 case "t":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "top",
                         orientation: "-",
                     });
                     break;
                 case "T":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "top",
                         orientation: "+",
                     });
                     break;
                 case "d":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "down",
                         orientation: "+",
                     });
                     break;
                 case "D":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "down",
                         orientation: "-",
                     });
                     break;
                 case "e":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "equator",
                         orientation: "+",
                     });
                     break;
                 case "E":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "equator",
                         orientation: "-",
                     });
                     break;
                 case "m":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "middle",
                         orientation: "-",
                     });
                     break;
                 case "M":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "middle",
                         orientation: "+",
                     });
                     break;
                 case "s":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "standing",
                         orientation: "+",
                     });
                     break;
                 case "S":
+                    if (isScrambling) return;
                     rotationQueue.add({
                         layer: "standing",
                         orientation: "-",
@@ -493,6 +510,7 @@
 
     function resetCube() {
         if (rotationQueue.executing) return;
+        rotationQueue.clearHistory();
         for (let index = 0; index < cubies.length; index++) {
             cubies[index].coords = {
                 ...cubies[index].originalCoords,
@@ -503,14 +521,19 @@
         }
     }
 
-    function scrambleCube(iterations = 50) {
-        if (rotationQueue.executing) return;
+    async function scrambleCube(iterations = 50) {
+        if (rotationQueue.executing || isScrambling) return;
+        isScrambling = true;
+        rotationQueue.clearHistory();
         for (let i = 0; i < iterations; i++) {
-            rotationQueue.add({
+            await rotateLayer({
                 layer: randEl(layerList),
                 orientation: randEl(["+", "-"]),
             });
+            await sleep(20);
         }
+
+        isScrambling = false;
     }
 </script>
 
