@@ -1,11 +1,10 @@
 <script>
     import { scale } from "svelte/transition";
-    export let popup = true;
-    export let popupText = "";
+    export let popup;
 </script>
 
-<aside transition:scale on:click={() => (popup = false)}>
-    {popupText}
+<aside transition:scale on:click={() => (popup.show = false)}>
+    {popup.text}
 </aside>
 
 <style>
