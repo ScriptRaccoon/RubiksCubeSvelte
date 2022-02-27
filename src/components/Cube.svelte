@@ -14,8 +14,6 @@
 
     let rotationSpeed = 250;
 
-    let isRotating = false;
-
     let rotationString = "";
 
     const faceNames = [
@@ -321,7 +319,14 @@
         checkSolved();
     }
 
-    const rotationQueue = new TaskQueue(rotateLayer);
+    function inverseRotation(rotationData) {
+        return {
+            layer: rotationData.layer,
+            orientation: rotationData.orientation == "+" ? "-" : "+",
+        };
+    }
+
+    const rotationQueue = new TaskQueue(rotateLayer, inverseRotation);
 
     onMount(() => {
         setTimeout(() => {
@@ -461,6 +466,9 @@
                         layer: "standing",
                         orientation: "-",
                     });
+                    break;
+                case "u":
+                    rotationQueue.undo();
                     break;
                 case "U":
                     resetCube();
