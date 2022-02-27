@@ -504,12 +504,12 @@
     }
 
     function showPopup(txt, duration = 2000) {
-        // popup = true;
-        // popupText = txt;
-        // setTimeout(() => {
-        //     popup = false;
-        //     popupText = "";
-        // }, duration);
+        popup = true;
+        popupText = txt;
+        setTimeout(() => {
+            popup = false;
+            popupText = "";
+        }, duration);
     }
 
     function resetCube() {
