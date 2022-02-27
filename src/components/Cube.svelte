@@ -8,7 +8,7 @@
     let popup = false;
     let popupText = "";
 
-    let rotationSpeed = 300;
+    let rotationSpeed = 250;
 
     let isRotating = false;
 
@@ -311,11 +311,11 @@
                     cubies[index].rotating = false;
                 }
             }
+            rotationString = "";
             setTimeout(() => {
-                rotationString = "";
                 isRotating = false;
                 checkSolved();
-            }, 100);
+            }, 0);
         }, rotationSpeed);
     }
 
@@ -452,6 +452,7 @@
 >
     <div
         class="cube"
+        style:transition-duration="{rotationSpeed}ms"
         class:transparent={transparentMode}
         style:transform="rotateX({cubeRotation.x}deg) rotateY({cubeRotation.y}deg)"
     >
@@ -462,7 +463,9 @@
         </div>
         <div
             class="rotationLayer"
-            style:transition-duration="{rotationSpeed}ms"
+            style:transition-duration={rotationString
+                ? `${rotationSpeed}ms`
+                : "0ms"}
             style:transform={rotationString}
         >
             {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
@@ -493,7 +496,7 @@
     }
 
     .cube {
-        transition: transform 200ms ease-out;
+        transition: transform ease-out;
     }
 
     /* transparent mode */
@@ -511,8 +514,9 @@
         box-shadow: none;
     }
 
+    /* rotation layer */
+
     .rotationLayer {
-        position: absolute;
         transition: transform ease-in-out;
     }
 </style>

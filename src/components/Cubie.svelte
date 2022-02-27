@@ -20,6 +20,7 @@
     .cubie {
         width: 0%;
         height: 0%;
+        pointer-events: initial;
     }
     :global(.cubie:hover .face) {
         box-shadow: 0 0 calc(0.2 * var(--cubie-size))
