@@ -80,6 +80,10 @@
                     The keys <strong>s</strong>,
                     <strong>S</strong> rotate the standing layer.
                 </p>
+                <p>
+                    When you enter many rotations in a row,<br />they
+                    are put on a queue.
+                </p>
                 <br />
                 <p>
                     The key <strong>u</strong> undoes the last layer rotation.
@@ -88,7 +92,7 @@
                     The key <strong>U</strong> resets the whole cube.
                 </p>
                 <p>
-                    The key <strong>x</strong> stops the current rotations.
+                    The key <strong>x</strong> stops the rotation queue.
                 </p>
                 <p>
                     The key <strong>X</strong> scrambles the cube.
