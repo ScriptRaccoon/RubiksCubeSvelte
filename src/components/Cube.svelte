@@ -547,29 +547,34 @@
         in:fade={{ duration: 500 }}
         class="scene"
         class:visible
-        style:--cubie-size="calc({zoomFactor} * min(120px, 18vw))"
+        style:--cubie-size=" min(120px, 18vw)"
     >
         <div
-            class="cube"
-            style:transition-duration="{rotationSpeed}ms"
-            class:transparent={transparentMode}
-            style:transform="rotateX({cubeRotation.x}deg) rotateY({cubeRotation.y}deg)"
+            class="scaleContainer"
+            style:transform="scale({zoomFactor})"
         >
-            <div class="cubieContainer">
-                {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
-                    <Cubie {cubie} />
-                {/each}
-            </div>
             <div
-                class="rotationLayer"
-                style:transition-duration={rotationString
-                    ? `${rotationSpeed}ms`
-                    : "0ms"}
-                style:transform={rotationString}
+                class="cube"
+                style:transition-duration="{rotationSpeed}ms"
+                class:transparent={transparentMode}
+                style:transform="rotateX({cubeRotation.x}deg) rotateY({cubeRotation.y}deg)"
             >
-                {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
-                    <Cubie {cubie} />
-                {/each}
+                <div class="cubieContainer">
+                    {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
+                        <Cubie {cubie} />
+                    {/each}
+                </div>
+                <div
+                    class="rotationLayer"
+                    style:transition-duration={rotationString
+                        ? `${rotationSpeed}ms`
+                        : "0ms"}
+                    style:transform={rotationString}
+                >
+                    {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
+                        <Cubie {cubie} />
+                    {/each}
+                </div>
             </div>
         </div>
     </main>
@@ -593,6 +598,10 @@
     :global(.scene *) {
         transform-style: inherit;
         position: absolute;
+    }
+
+    .scaleContainer {
+        transition: transform 100ms ease-out;
     }
 
     .cube {
