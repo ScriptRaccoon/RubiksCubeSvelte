@@ -1,7 +1,7 @@
 <script>
     import Cubie from "./Cubie.svelte";
     import Popup from "./Popup.svelte";
-    import { mod, sleep } from "../utils.js";
+    import { mod, sleep, randEl } from "../utils.js";
     import { onMount, setContext } from "svelte";
     import { cubieTransform } from "../cubieTransform.js";
     import { fade } from "svelte/transition";
@@ -290,6 +290,8 @@
         standing: { axis: "z", value: 0 },
     };
 
+    const layerList = Object.keys(layerMap);
+
     async function rotateLayer(rotationData) {
         const { layer, orientation } = rotationData;
         const angle = orientation == "+" ? 90 : -90;
@@ -321,7 +323,7 @@
 
     function inverseRotation(rotationData) {
         return {
-            layer: rotationData.layer,
+            ...rotationData,
             orientation: rotationData.orientation == "+" ? "-" : "+",
         };
     }
@@ -473,6 +475,9 @@
                 case "U":
                     resetCube();
                     break;
+                case "X":
+                    scrambleCube();
+                    break;
             }
         });
     }
@@ -495,6 +500,16 @@
             cubies[index].colors = {
                 ...cubies[index].originalColors,
             };
+        }
+    }
+
+    function scrambleCube(iterations = 50) {
+        if (rotationQueue.executing) return;
+        for (let i = 0; i < iterations; i++) {
+            rotationQueue.add({
+                layer: randEl(layerList),
+                orientation: randEl(["+", "-"]),
+            });
         }
     }
 </script>
