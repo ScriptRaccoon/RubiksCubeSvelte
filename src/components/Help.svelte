@@ -1,18 +1,21 @@
 <script>
-    import { onMount } from "svelte";
     import { fly } from "svelte/transition";
 
     let showHelp = false;
 
-    onMount(() => {
-        document.addEventListener("keydown", (e) => {
-            if (e.key == "i") {
-                showHelp = !showHelp;
-            }
-        });
+    let helpShown = localStorage.getItem("helpShown");
+
+    if (helpShown != "yes") {
         setTimeout(() => {
             showHelp = true;
+            localStorage.setItem("helpShown", "yes");
         }, 1000);
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key == "i") {
+            showHelp = !showHelp;
+        }
     });
 </script>
 
