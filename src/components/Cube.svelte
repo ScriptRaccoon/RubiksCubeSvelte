@@ -492,6 +492,10 @@
                 case "U":
                     resetCube();
                     break;
+                case "x":
+                    isScrambling = false;
+                    rotationQueue.stop();
+                    break;
                 case "X":
                     scrambleCube();
                     break;
@@ -509,7 +513,7 @@
     }
 
     function resetCube() {
-        if (rotationQueue.executing) return;
+        if (rotationQueue.executing || isScrambling) return;
         rotationQueue.clearHistory();
         for (let index = 0; index < cubies.length; index++) {
             cubies[index].coords = {
@@ -531,6 +535,7 @@
                 orientation: randEl(["+", "-"]),
             });
             await sleep(20);
+            if (!isScrambling) break;
         }
 
         isScrambling = false;

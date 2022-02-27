@@ -88,6 +88,9 @@
                     The key <strong>U</strong> resets the whole cube.
                 </p>
                 <p>
+                    The key <strong>x</strong> stops the current rotations.
+                </p>
+                <p>
                     The key <strong>X</strong> scrambles the cube.
                 </p>
                 <p>
