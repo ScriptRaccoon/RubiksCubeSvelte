@@ -193,7 +193,6 @@
 {#if visible}
     <main
         in:fade={{ duration: 500 }}
-        class:visible
         style:--cubie-size=" min(120px, 18vw)"
     >
         <div
@@ -204,7 +203,7 @@
             rotateY({cubeRotation.y}deg)"
         >
             <div class="cubieContainer">
-                {#each cubies.filter((c) => !c.rotating) as cubie}
+                {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
                     <Cubie {cubie} />
                 {/each}
             </div>
@@ -215,7 +214,7 @@
                     : 0}ms"
                 style:transform={layerTransform}
             >
-                {#each cubies.filter((c) => c.rotating) as cubie}
+                {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
                     <Cubie {cubie} />
                 {/each}
             </div>
@@ -241,6 +240,7 @@
 
     .cube {
         transition: transform ease-out;
+        position: absolute;
     }
 
     :global(.cube.transparent .face) {
