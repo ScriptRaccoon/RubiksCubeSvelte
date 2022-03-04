@@ -5,6 +5,7 @@ This is Rubik's Cube made mainly with 3-dimensional CSS transforms and a bit of 
 https://rubikscubesvelte.netlify.app
 
 <img src="./public/img/cube-sample.png" alt="Screenshot" width="300"/>
+<img src="./public/img/cube-sample2.png" alt="Screenshot" width="300"/>
   
 Open the menu with the `i` key to see all the keys for rotating the cube and its layers.
 
