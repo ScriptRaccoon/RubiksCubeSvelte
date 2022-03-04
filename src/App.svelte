@@ -6,12 +6,8 @@
 </script>
 
 <Help />
-
 <Cube bind:popup />
-
-{#if popup.show}
-    <Popup bind:popup />
-{/if}
+<Popup bind:popup />
 
 <style>
     :global(*) {

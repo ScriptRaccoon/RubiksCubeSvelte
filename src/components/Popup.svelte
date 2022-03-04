@@ -3,9 +3,11 @@
     export let popup;
 </script>
 
-<aside transition:scale on:click={() => (popup.show = false)}>
-    {popup.text}
-</aside>
+{#if popup.show}
+    <aside transition:scale on:click={() => (popup.show = false)}>
+        {popup.text}
+    </aside>
+{/if}
 
 <style>
     aside {
