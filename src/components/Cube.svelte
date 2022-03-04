@@ -225,7 +225,7 @@
 <style>
     main {
         min-height: 100vh;
-        perspective: calc(8 * var(--cubie-size));
+        perspective: calc(10 * var(--cubie-size));
         transform-style: preserve-3d;
         display: flex;
         justify-content: center;
