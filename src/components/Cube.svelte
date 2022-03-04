@@ -204,7 +204,7 @@
         >
             <div class="cubieContainer">
                 {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
-                    <Cubie {cubie} />
+                    <Cubie {cubie} {transparent} />
                 {/each}
             </div>
             <div
@@ -215,7 +215,7 @@
                 style:transform={layerTransform}
             >
                 {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
-                    <Cubie {cubie} />
+                    <Cubie {cubie} {transparent} />
                 {/each}
             </div>
         </div>
@@ -240,16 +240,6 @@
     .cube {
         transition: transform ease-out;
         position: absolute;
-    }
-
-    :global(.cube.transparent .face) {
-        background: transparent;
-        opacity: 0.85;
-        box-shadow: none;
-    }
-
-    :global(.cube.transparent .face::before) {
-        box-shadow: none;
     }
 
     .rotationLayer {

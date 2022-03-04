@@ -1,10 +1,12 @@
 <script>
     export let faceName = "left";
     export let color = "transparent";
+    export let transparent = false;
 </script>
 
 <div
     class="face {faceName}"
+    class:transparent
     style:--color={color ? color : "transparent"}
 />
 
@@ -54,5 +56,15 @@
 
     .face.down {
         transform: rotateX(-90deg) translateZ(var(--half-cubie-size));
+    }
+
+    .face.transparent {
+        background: transparent;
+        opacity: 0.85;
+        box-shadow: none;
+    }
+
+    .face.transparent::before {
+        box-shadow: none;
     }
 </style>
