@@ -6,9 +6,9 @@
 
 <div
     class="cubie"
-    style:transform="translateX(calc({cubie.coords.x} * var(--cubie-size)))
-    translateY(calc({cubie.coords.y} * var(--cubie-size))) translateZ(calc({cubie
-        .coords.z} * var(--cubie-size)))"
+    style:--x={cubie.coords.x}
+    style:--y={cubie.coords.y}
+    style:--z={cubie.coords.z}
 >
     {#each faceNames as faceName}
         <Face {faceName} color={cubie.colors[faceName]} />
@@ -17,12 +17,8 @@
 
 <style>
     .cubie {
-        width: 0;
-        height: 0;
-        pointer-events: initial;
-    }
-    :global(.cubie:hover .face) {
-        box-shadow: 0 0 calc(0.2 * var(--cubie-size))
-            rgba(255, 255, 255, 1) inset !important;
+        transform: translateX(calc(var(--x) * var(--cubie-size)))
+            translateY(calc(var(--y) * var(--cubie-size)))
+            translateZ(calc(var(--z) * var(--cubie-size)));
     }
 </style>
