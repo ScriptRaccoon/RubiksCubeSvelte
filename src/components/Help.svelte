@@ -113,12 +113,8 @@
         font-family: "Courier New", Courier, monospace;
         font-size: 22px;
         position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
+        inset: 0 auto 0 0;
         z-index: 1;
-        display: flex;
-        flex-direction: column;
     }
 
     #helpToggler {
@@ -129,7 +125,7 @@
         background-color: rgba(0, 0, 0, 0.9);
         box-shadow: 0px 0px 20px black;
         flex-grow: 1;
-        padding-right: 20px;
+        padding: 0px 20px 20px 0px;
     }
 
     i {
