@@ -193,7 +193,7 @@
 {#if visible}
     <main
         in:fade={{ duration: 500 }}
-        style:--cubie-size=" min(120px, 18vw)"
+        style:--cubie-size="min(120px, 18vw)"
     >
         <div
             class="cube"

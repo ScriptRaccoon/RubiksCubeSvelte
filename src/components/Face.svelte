@@ -1,12 +1,16 @@
 <script>
     export let faceName = "left";
-    export let color = "";
+    export let color = "transparent";
 </script>
 
-<div class="face {faceName}" style:--color={color ? color : ""} />
+<div
+    class="face {faceName}"
+    style:--color={color ? color : "transparent"}
+/>
 
 <style>
     .face {
+        --half-cubie-size: calc(0.5 * var(--cubie-size));
         width: var(--cubie-size);
         height: var(--cubie-size);
         background: #404040;
@@ -20,43 +24,35 @@
 
     .face::before {
         content: "";
+        background: var(--color);
         width: 92%;
         height: 92%;
         border-radius: calc(0.1 * var(--cubie-size));
-        background: var(--color);
         box-shadow: 0 0 calc(0.05 * var(--cubie-size))
             rgba(0, 0, 0, 0.3) inset;
     }
 
     .face.front {
-        transform: translateX(-50%) translateY(-50%)
-            translateZ(calc(0.5 * var(--cubie-size)));
-    }
-
-    .face.back {
-        transform: translateX(-50%) translateY(-50%)
-            translateZ(calc(-0.5 * var(--cubie-size)));
-    }
-
-    .face.left {
-        transform: translateX(calc(-50% + (-0.5) * var(--cubie-size)))
-            translateY(-50%) rotateY(-90deg);
+        transform: translateZ(var(--half-cubie-size));
     }
 
     .face.right {
-        transform: translateX(calc(-50% + (0.5) * var(--cubie-size)))
-            translateY(-50%) rotateY(90deg);
+        transform: rotateY(90deg) translateZ(var(--half-cubie-size));
+    }
+
+    .face.back {
+        transform: rotateY(180deg) translateZ(var(--half-cubie-size));
+    }
+
+    .face.left {
+        transform: rotateY(-90deg) translateZ(var(--half-cubie-size));
     }
 
     .face.top {
-        transform: translateX(-50%)
-            translateY(calc(-50% + (-0.5) * var(--cubie-size)))
-            rotateX(90deg);
+        transform: rotateX(90deg) translateZ(var(--half-cubie-size));
     }
 
     .face.down {
-        transform: translateX(-50%)
-            translateY(calc(-50% + 0.5 * var(--cubie-size)))
-            rotateX(90deg);
+        transform: rotateX(-90deg) translateZ(var(--half-cubie-size));
     }
 </style>

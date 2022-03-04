@@ -20,5 +20,8 @@
         transform: translateX(calc(var(--x) * var(--cubie-size)))
             translateY(calc(var(--y) * var(--cubie-size)))
             translateZ(calc(var(--z) * var(--cubie-size)));
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
