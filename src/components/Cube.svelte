@@ -1,13 +1,13 @@
 <script>
     // imports
     import Cubie from "./Cubie.svelte";
-    import { mod, sleep, randEl } from "../utils.js";
     import { onMount } from "svelte";
-    import { cubieTransform } from "../cubieTransform.js";
     import { fade } from "svelte/transition";
+    import { cubieTransform } from "../cubieTransform.js";
     import { TaskQueue } from "../TaskQueue.js";
     import { cubieList } from "../cubieList.js";
     import { faceNames, layerMap } from "../layers.js";
+    import { mod, sleep, randEl } from "../utils.js";
 
     // variables
 
@@ -122,6 +122,11 @@
         scrambling = false;
     }
 
+    function stopScrambling() {
+        scrambling = false;
+        rotationQueue.stop();
+    }
+
     // rotation queue
 
     function invertRotation({ layer, orientation }) {
@@ -140,11 +145,6 @@
 
     // key controller
 
-    onMount(() => {
-        visible = true;
-        enableKeyControl();
-    });
-
     const keyController = {
         ArrowLeft: () => rotateCube("left"),
         ArrowRight: () => rotateCube("right"),
@@ -155,11 +155,8 @@
         c: toggleTransparency,
         u: () => rotationQueue.undo(),
         U: resetCube,
-        x: () => {
-            scrambling = false;
-            rotationQueue.stop();
-        },
         X: scrambleCube,
+        x: stopScrambling,
         f: () => addRotation({ layer: "front", orientation: "+" }),
         F: () => addRotation({ layer: "front", orientation: "-" }),
         b: () => addRotation({ layer: "back", orientation: "-" }),
@@ -188,6 +185,11 @@
             }
         });
     }
+
+    onMount(() => {
+        visible = true;
+        enableKeyControl();
+    });
 </script>
 
 {#if visible}
@@ -197,10 +199,10 @@
     >
         <div
             class="cube"
-            style:transition-duration="{rotationSpeed}ms"
-            class:transparent
-            style:transform="scale({zoomFactor}) rotateX({cubeRotation.x}deg)
-            rotateY({cubeRotation.y}deg)"
+            style:--speed="{rotationSpeed}ms"
+            style:--zoom={zoomFactor}
+            style:--rotation-x="{cubeRotation.x}deg"
+            style:--rotation-y="{cubeRotation.y}deg"
         >
             <div class="cubieContainer">
                 {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
@@ -209,9 +211,7 @@
             </div>
             <div
                 class="rotationLayer"
-                style:transition-duration="{layerTransform
-                    ? rotationSpeed
-                    : 0}ms"
+                style:--speed="{layerTransform ? rotationSpeed : 0}ms"
                 style:transform={layerTransform}
             >
                 {#each cubies.filter((c) => c.rotating) as cubie (cubie.id)}
@@ -225,7 +225,7 @@
 <style>
     main {
         min-height: 100vh;
-        perspective: calc(10 * var(--cubie-size));
+        perspective: calc(8 * var(--cubie-size));
         transform-style: preserve-3d;
         display: flex;
         justify-content: center;
@@ -238,11 +238,12 @@
     }
 
     .cube {
-        transition: transform ease-out;
-        position: absolute;
+        transform: scale(var(--zoom)) rotateX(var(--rotation-x))
+            rotateY(var(--rotation-y));
+        transition: transform var(--speed) ease-out;
     }
 
     .rotationLayer {
-        transition: transform ease-out;
+        transition: transform var(--speed) ease-out;
     }
 </style>
