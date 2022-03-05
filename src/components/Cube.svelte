@@ -143,6 +143,10 @@
         rotationQueue.add(data);
     }
 
+    function undoRotation() {
+        rotationQueue.undo();
+    }
+
     // key controller
 
     const keyController = {
@@ -153,7 +157,7 @@
         "+": () => zoom(1.15),
         "-": () => zoom(1 / 1.15),
         c: toggleTransparency,
-        u: () => rotationQueue.undo(),
+        u: undoRotation,
         U: resetCube,
         X: scrambleCube,
         x: stopScrambling,
@@ -193,16 +197,14 @@
 </script>
 
 {#if visible}
-    <main
-        in:fade={{ duration: 500 }}
-        style:--cubie-size="min(120px, 18vw)"
-    >
+    <main in:fade={{ duration: 500 }}>
         <div
             class="cube"
             style:--speed="{rotationSpeed}ms"
             style:--zoom={zoomFactor}
             style:--rotation-x="{cubeRotation.x}deg"
             style:--rotation-y="{cubeRotation.y}deg"
+            style:--rotation-z="{cubeRotation.z}deg"
         >
             <div class="cubieContainer">
                 {#each cubies.filter((c) => !c.rotating) as cubie (cubie.id)}
@@ -224,6 +226,7 @@
 
 <style>
     main {
+        --cubie-size: min(120px, 18vw);
         min-height: 100vh;
         perspective: calc(10 * var(--cubie-size));
         transform-style: preserve-3d;
@@ -239,7 +242,7 @@
 
     .cube {
         transform: scale(var(--zoom)) rotateX(var(--rotation-x))
-            rotateY(var(--rotation-y));
+            rotateY(var(--rotation-y)) rotateZ(var(--rotation-z));
         transition: transform var(--speed) ease-out;
     }
 
