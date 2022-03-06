@@ -150,42 +150,43 @@
     // key controller
 
     const keyController = {
-        ArrowLeft: () => rotateCube("left"),
-        ArrowRight: () => rotateCube("right"),
-        ArrowUp: () => rotateCube("up"),
-        ArrowDown: () => rotateCube("down"),
-        "+": () => zoom(1.15),
-        "-": () => zoom(1 / 1.15),
-        c: toggleTransparency,
-        u: undoRotation,
-        U: resetCube,
-        X: scrambleCube,
-        x: stopScrambling,
-        f: () => addRotation({ layer: "front", orientation: "+" }),
-        F: () => addRotation({ layer: "front", orientation: "-" }),
-        b: () => addRotation({ layer: "back", orientation: "-" }),
-        B: () => addRotation({ layer: "back", orientation: "+" }),
-        t: () => addRotation({ layer: "top", orientation: "-" }),
-        T: () => addRotation({ layer: "top", orientation: "+" }),
-        d: () => addRotation({ layer: "down", orientation: "+" }),
-        D: () => addRotation({ layer: "down", orientation: "-" }),
-        l: () => addRotation({ layer: "left", orientation: "-" }),
-        L: () => addRotation({ layer: "left", orientation: "+" }),
-        r: () => addRotation({ layer: "right", orientation: "+" }),
-        R: () => addRotation({ layer: "right", orientation: "-" }),
-        m: () => addRotation({ layer: "middle", orientation: "-" }),
-        M: () => addRotation({ layer: "middle", orientation: "+" }),
-        s: () => addRotation({ layer: "standing", orientation: "+" }),
-        S: () => addRotation({ layer: "standing", orientation: "-" }),
-        e: () => addRotation({ layer: "equator", orientation: "+" }),
-        E: () => addRotation({ layer: "equator", orientation: "-" }),
+        ArrowLeft: [rotateCube, "left"],
+        ArrowRight: [rotateCube, "right"],
+        ArrowUp: [rotateCube, "up"],
+        ArrowDown: [rotateCube, "down"],
+        "+": [zoom, 1.15],
+        "-": [zoom, 1 / 1.15],
+        c: [toggleTransparency],
+        u: [undoRotation],
+        U: [resetCube],
+        X: [scrambleCube],
+        x: [stopScrambling],
+        f: [addRotation, { layer: "front", orientation: "+" }],
+        F: [addRotation, { layer: "front", orientation: "-" }],
+        b: [addRotation, { layer: "back", orientation: "-" }],
+        B: [addRotation, { layer: "back", orientation: "+" }],
+        t: [addRotation, { layer: "top", orientation: "-" }],
+        T: [addRotation, { layer: "top", orientation: "+" }],
+        d: [addRotation, { layer: "down", orientation: "+" }],
+        D: [addRotation, { layer: "down", orientation: "-" }],
+        l: [addRotation, { layer: "left", orientation: "-" }],
+        L: [addRotation, { layer: "left", orientation: "+" }],
+        r: [addRotation, { layer: "right", orientation: "+" }],
+        R: [addRotation, { layer: "right", orientation: "-" }],
+        m: [addRotation, { layer: "middle", orientation: "-" }],
+        M: [addRotation, { layer: "middle", orientation: "+" }],
+        s: [addRotation, { layer: "standing", orientation: "+" }],
+        S: [addRotation, { layer: "standing", orientation: "-" }],
+        e: [addRotation, { layer: "equator", orientation: "+" }],
+        E: [addRotation, { layer: "equator", orientation: "-" }],
     };
 
     function enableKeyControl() {
         document.addEventListener("keydown", (e) => {
             const key = e.key;
             if (Object.keys(keyController).includes(key)) {
-                keyController[key]();
+                const [fun, arg] = keyController[key];
+                fun(arg);
             }
         });
     }
