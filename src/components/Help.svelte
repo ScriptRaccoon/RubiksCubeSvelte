@@ -31,7 +31,6 @@
                         need a keyboard to control the cube.
                     </strong>
                 </p>
-                <br />
             </div>
             <div class="for-desktop">
                 <p>
@@ -103,6 +102,13 @@
                     The key <strong>c</strong> toggles transparent mode.
                 </p>
             </div>
+            <br />
+            <p>
+                <a
+                    href="https://github.com/ScriptRaccoon/RubiksCubeSvelte"
+                    target="_blank">GitHub repository</a
+                >
+            </p>
         </div>
     {/if}
 </section>
@@ -126,6 +132,13 @@
         box-shadow: 0px 0px 20px black;
         flex-grow: 1;
         padding: 0px 20px 20px 0px;
+    }
+
+    a {
+        color: yellow;
+    }
+    a:hover {
+        color: orange;
     }
 
     i {
